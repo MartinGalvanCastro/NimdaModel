@@ -31,7 +31,7 @@ suppress_qt_warnings()
 
 class NIMFA:
 
-    def __init__(self, adjMatrix: np.array, graph: Graph) -> None:
+    def __init__(self, adjMatrix: np.array, graph: Graph, delta:int) -> None:
         """
         Funcion de inicializacion del modelo NIMFA
         """
@@ -39,6 +39,7 @@ class NIMFA:
         self.n = len(self.adjMatrix)
         self.m = 10
         self.h = 1
+        self.delta = delta
         self.T = round(self.m/self.h)
         self.v = np.zeros((self.n, self.T))
         self.colors = mpl.colors.Normalize(vmin=0, vmax=1, clip=True)

@@ -152,3 +152,5 @@ class Graph:
         Metodo que devuelve el grado de todos los nodos
         """
         return sorted(list(self.G.degree(self.G.nodes)), key=lambda x: x[0])
+
+    
