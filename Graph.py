@@ -6,6 +6,7 @@
 # ----------------------------------------------------
 
 import json
+import os
 from math import dist, inf
 import networkx as nx
 import numpy as np
@@ -28,11 +29,12 @@ class Graph:
         Metodo de inicialización del grado
         mode : int
             Modo de creacion:
-                1 -> Grafo Aleatorio
-                2 -> Grafo desde archivo txt
+                1 -> Grafo desde archivo json
+                2 -> Grafo Aleatorio
         init : String
-            Puede ser la ruta al txt o la canitdad de nodos que tiene el grafo
+            Puede ser la ruta al json o la canitdad de nodos que tiene el grafo
         """
+
         plt.show()
         self.G = nx.Graph()
         self.graph_data = None
@@ -133,7 +135,7 @@ class Graph:
                 edge_cmap=mpl.cm.coolwarm,
                 vmin=0, vmax=1)
         plt.colorbar(mapper, shrink=0.75)
-        plt.pause(0.01)
+        plt.pause(0.1)
         plt.draw()
         
 
@@ -147,10 +149,25 @@ class Graph:
         with open(f"{self.name}", "w") as outfile:
             json.dump(self.graph_data, outfile)
 
-    def get_degree_of_nodes(self) -> dict:
+    def get_degree_of_nodes(self) -> list:
         """
         Metodo que devuelve el grado de todos los nodos
         """
-        return sorted(list(self.G.degree(self.G.nodes)), key=lambda x: x[0])
+        return sorted(list(self.G.degree()), key=lambda x: x[0])
 
+    def get_infected_neigboors(self) -> list:
+        resp = []
+        for node in self.G.nodes():
+            adjList = self.graph_data[node]['adjList']
+            infected = 0
+            for i,neighboor in enumerate(adjList):
+                if neighboor==1:
+                    infected += 1 if self.G.nodes[i]['value']>=0.65 else 0
+            resp.append((node,infected))
+        return resp
+
+#if __name__=='__main__':
+    #path = os.path.join(os.path.dirname(os.path.abspath(__file__)),'JSON/test4.json')
+    #g = Graph(2,'20')
+    #g.save_graph('TestModelos')
     

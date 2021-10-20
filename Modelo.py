@@ -31,29 +31,19 @@ suppress_qt_warnings()
 
 class NIMFA:
 
-    def __init__(self, adjMatrix: np.array, graph: Graph, delta:int) -> None:
+    def __init__(self, adjMatrix: np.array, graph: Graph) -> None:
         """
         Funcion de inicializacion del modelo NIMFA
         """
         self.adjMatrix = adjMatrix
         self.n = len(self.adjMatrix)
         self.m = 10
-        self.h = 1
-        self.delta = delta
-        self.T = round(self.m/self.h)
-        self.v = np.zeros((self.n, self.T))
+        self.v = np.zeros(self.n)
         self.colors = mpl.colors.Normalize(vmin=0, vmax=1, clip=True)
-        self.v[:, 0] = [uniform(0, 0.05) for _ in range(self.n)]
+        self.v[:] = [uniform(0, 0.05) for _ in range(self.n)]
         self.graph = graph
         self.degrees = self.graph.get_degree_of_nodes()
         self.nodes_infected = []
-
-    def setRates(self,delta,beta):
-        """
-        Funcion para definir las tasas de infeccion del modelo
-        """
-        self.beta = beta
-        self.delta = delta
 
 
     @abstractclassmethod
@@ -74,6 +64,7 @@ class NIMFA:
             resultado = np.matmul(resultado, matrixArray[i])
         return resultado
 
+    @abstractclassmethod
     def checkLimit(self, v: np.array) -> np.array:
         """
         Metodo que valida si el resultado esta dentro del limite
