@@ -166,8 +166,9 @@ class Graph:
             resp.append((node,infected))
         return resp
 
-#if __name__=='__main__':
-    #path = os.path.join(os.path.dirname(os.path.abspath(__file__)),'JSON/test4.json')
-    #g = Graph(2,'20')
-    #g.save_graph('TestModelos')
+if __name__=='__main__':
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)),'JSON')
+    for i in range(10,20):
+        g = Graph(2,f'{i}')
+        g.save_graph(f'{path}/Test{i}Nodos')
     

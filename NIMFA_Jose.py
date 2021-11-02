@@ -28,10 +28,10 @@ class NIMFA_Fixed(NIMFA):
         while diff>epsilon:
             u = np.ones(self.n)
             A = np.diag(np.ones(shape=(self.n))*(1-self.delta))
-            B = np.diag(u-vinit)*self.beta
+            B = np.diag(u-vinit)
 
             C = self.matrixMul([A,vinit])
-            D = self.matrixMul([B,vinit])
+            D = self.matrixMul([B,self.adjMatrix*self.beta,vinit])
 
             temp = C+D
             vnext=self.checkLimit(temp)

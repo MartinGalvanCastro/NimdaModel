@@ -5,7 +5,7 @@
 # Version: 1.0
 # ------------------------------------------------------------------------------------------------
 
-from numpy.core.fromnumeric import shape
+from pprint import pprint
 from Modelo import NIMFA
 from Graph import Graph
 import numpy as np
@@ -24,9 +24,9 @@ class NIMFA_Poisson(NIMFA):
     def calcularBeta(self):
         self.beta = np.zeros((self.n,self.n))
         for i in range(self.n):
-            beta = poisson.pmf(self.degrees[i][1],self.lamda)
             for j in range(self.n):
-                self.beta[i,j] = beta*self.adjMatrix[i][j]
+                beta = poisson.pmf(self.degrees[i][1],self.lamda)
+                self.beta[j,i] = beta*self.adjMatrix[j][i]
 
     def run(self):
         diff = 1
@@ -34,6 +34,7 @@ class NIMFA_Poisson(NIMFA):
         vinit = self.v
         epsilon = 0.0001
         self.calcularBeta()
+        pprint(self.beta)
         while diff>epsilon:
             u = np.ones(self.n)
             A = np.diag(u-self.delta)
